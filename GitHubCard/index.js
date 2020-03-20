@@ -2,13 +2,11 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/ROMEOXU')
-.then(response => {
-  response.data.forEach(element => {
-    const newcard = createCard(element);
-    allcards.appendChild(newcard);
+axios.get('https://api.github.com/users/romeoxu')
+.then( response => {
+  console.log('checking the ',response);
+  allcards.appendChild(createCard(response.data));
   })
-})
 .catch(error=>{
   console.log('the data was wrong',error)
 })
@@ -34,6 +32,15 @@ axios.get('https://api.github.com/users/ROMEOXU')
 */
 
 const followersArray = [];
+
+axios.get('https://api.github.com/users/romeoxu/followers')
+.then( response => {
+ response.data.map(item=>allcards.appendChild(createCard(item)))}
+)
+
+.catch(error=>{
+  console.log('the data was wrong',error)
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -86,17 +93,19 @@ function createCard(obj){
   cardinfo.appendChild(bio);
   profile.appendChild(link);
 
+
   card.classList.add("card");
   cardinfo.classList.add("card-info");
   name.classList.add("name");
   username.classList.add("username");
 
-  name.textContent = obj.name;
-  username.textContent = obj.login;
+  name.textContent = `Name:${obj.name}`;
+  imageofuser.src = obj.avatar_url;
+  username.textContent = `user name:${obj.login}`;
   location.textContent = obj.location;
   link.href = obj.html_url;
-  followers.textContent = obj.followers;
-  following.textContent = obj.following;
+  followers.textContent = `Follower:${obj.followers}`;
+  following.textContent = `Following:${obj.following}`;
   bio.textContent = obj.bio;
 
 
